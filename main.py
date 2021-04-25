@@ -11,17 +11,17 @@ tts = win32com.client.Dispatch("SAPI.SpVoice")
 location = input("지역을 입력하세요>>> ")
 
 
-music_file = "a.mp3"   # mp3 or mid file
+music_file = "a.mp3"   
 
 
 
-freq = 44100   # sampling rate, 44100(CD), 16000(Naver TTS), 24000(google TTS)
-bitsize = -16   # signed 16 bit. support 8,-8,16,-16
-channels = 1   # 1 is mono, 2 is stereo
-buffer = 2048   # number of samples (experiment to get right sound)
+freq = 44100   # 샘플링 속도, 44100(CD), 16000(Naver TTS), 24000(google TTS)
+bitsize = -16   
+channels = 1   # 1로 설정하면 모노, 2로 설정하면 스테레오
+buffer = 2048   
 
 
-# default : pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=2048)
+
 pygame.mixer.init(freq, bitsize, channels, buffer, )
 pygame.mixer.music.load(music_file)
 pygame.mixer.music.set_volume(0.2)
@@ -30,29 +30,18 @@ pygame.mixer.music.play()
 
 
 
-
-
-
-
-
-
-# 라이브러리 읽기
-
-import urllib.request as req
-
 # 기상청 URL
 url = 'http://www.kma.go.kr/weather/forecast/mid-term-rss3.jsp'
-# URL OPEN으로 데이터 가져오기
 res = req.urlopen(url)
 #beautifulsoup 으로 분석
 soup = BeautifulSoup(res, 'html.parser')
 
-#원하는 데이터 추출
+#데이터 추출
 title = soup.find("title").string
 wf = soup.find("wf").string.replace('<br /> ', '').replace('<br />○', '').replace('(풍랑)', '풍랑에 대해서 알아보겠습니다.').replace('(주말전망)', '주말전망에 대해서 알아보겠습니다.').replace('(해상)', '해상에 대해서 알아보겠습니다.').replace('○', '').replace(' ', '  ').replace('(강수)', '강수에 대해서 알아보겠습니다. ').replace('(수)', ' 수요일  ').replace('~', ' 에서 ').replace('(화)', ' 화요일  ').replace('(목)', ' 목요일  ').replace('(금)', ' 금요일  ').replace('(토)', ' 토요일  ').replace('(월)', ' 월요일  ').replace('(일)', ' 일요일  ').replace('(기온)', ' 기온에 대해서 살펴보겠습니다.').replace('(건조)', '대기도 건조합니다.').replace('(너울)', '너울도 있습니다.')
 
 
-#출력
+
 print('안녕하세요 오늘도 좋은 하루입니다. 날씨정보 브리핑을 시작하겠습니다. 먼저 전국적인 날씨 한번 알아보겠습니다.')
 tts.Speak('안녕하세요 ,  오늘도 좋은하루입니다. , 날씨정보 브리핑을 시작하겠습니다. 먼저 전국적인 날씨 한번 알아보겠습니다.')
 print(wf.replace(' ', ''))
