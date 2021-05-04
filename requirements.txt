@@ -1,1 +1,4 @@
-
+pygame
+pypiwin32
+beautifulsoup4
+requests
